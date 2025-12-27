@@ -21,3 +21,23 @@ Used the official installer (failed initially due to missing dependencies).
 2. **xkeysnail Patch**: Fixed compatibility issue with Python 3.12+ (AttributeError: 'InputDevice' object has no attribute 'fn').
    - Replaced `.fn` with `.path` in `/usr/local/lib/python3.12/dist-packages/xkeysnail/input.py`.
 
+
+## 3. Rofi Installation & Cmd+Space Binding (2025-12-27)
+### Installation
+Installed Rofi via Nix.
+\`\`\`bash
+nix-env -iA nixpkgs.rofi
+\`\`\`
+
+### Keybinding Fix (Cmd+Space)
+Elementary OS's custom shortcut system was inconsistent, so I modified \`~/.config/kinto/kinto.py\` to launch Rofi directly using Python's \`subprocess\`.
+
+**Added to kinto.py:**
+\`\`\`python
+import subprocess
+def launch_rofi():
+    subprocess.Popen(["/home/yamakoud/.nix-profile/bin/rofi", "-show", "drun"])
+
+# Replaced mapping
+K("RC-Space"): launch_rofi
+\`\`\`
